@@ -1,7 +1,7 @@
 # ReactJs Wikipedia Search Engine
 
 A simple search engine that makes use of the MediaWiki API (inspired by freeCodeCamp's Intermediate Front-End
-Development coding challenge).
+Development coding challenge). The search engine can be viewed [here](https://bhenriquez8.github.io/wikisearch)
 
 ### Tools Used:
 - `create-react-app`
