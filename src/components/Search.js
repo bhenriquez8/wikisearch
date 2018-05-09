@@ -1,20 +1,38 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Wikis from './Wikis';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
+import InsertLink from '@material-ui/icons/InsertLink';
+import Search from '@material-ui/icons/Search';
+import IconButton from 'material-ui/IconButton';
+import List, {
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction
+} from 'material-ui/List';
 
-class Search extends Component {
+class SearchWiki extends Component {
   constructor() {
     super();
     this.state = {
+      search: '',
       wiki: []
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange = search => event => {
+    this.setState({
+      [search]: event.target.value
+    });
   }
 
   handleClick(e) {
     e.preventDefault();
-    const keyword = this.refs.query.value;
+    //const keyword = this.refs.query.value;
+    const keyword = this.state.search;
     var wikis = [];
 
     if (keyword !== '') {
@@ -22,7 +40,15 @@ class Search extends Component {
         .then((response) => {
           wikis = response.data[1].map((wiki,index) => {
             return(
-              <li key={wiki}><a href={response.data[3][index]}>{wiki}</a></li>
+              <ListItem divider='true'>
+                <ListItemText primary={wiki}
+                  secondary={response.data[2][index]} />
+                <ListItemSecondaryAction>
+                  <IconButton aria-label="HyperLink" href={response.data[3][index]}>
+                    <InsertLink />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
             )
           })
           this.setState({
@@ -46,17 +72,28 @@ class Search extends Component {
       <div className="search">
         <h1>Wikipedia Search Engine
           <form onSubmit={this.handleClick} name='wiki-form'>
-            <input type="text" name="search" ref="query" placeholder="Search Wikipedia..." />
+            {/*<input type="text" name="search" ref="query" placeholder="Search Wikipedia..." />*/}
+            <TextField id="search"
+              label="Search"
+              value={this.state.search}
+              onChange={this.handleChange('search')}
+              margin="normal"
+              />
             <div className="buttons">
-              <button className="button" type="submit">Search</button>
-              <button className="button" onClick={this.onRandomWiki.bind(this)}>Random Wiki</button>
+              <Button variant="raised" type="submit" color="primary">
+                <Search className="icon"/>
+                Search
+              </Button>
+              <Button variant="raised" color="primary" onClick={this.onRandomWiki.bind(this)}>Random</Button>
             </div>
           </form>
         </h1>
-        <Wikis query={this.state.wiki}/>
+        <List>
+          {this.state.wiki}
+        </List>
       </div>
     );
   }
 }
 
-export default Search;
+export default SearchWiki;

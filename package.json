@@ -4,7 +4,9 @@
   "private": true,
   "homepage": "http://bhenriquez8.github.io/wikisearch",
   "dependencies": {
+    "@material-ui/icons": "^1.0.0-beta.43",
     "axios": "^0.18.0",
+    "material-ui": "^1.0.0-beta.45",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-scripts": "1.1.4"
